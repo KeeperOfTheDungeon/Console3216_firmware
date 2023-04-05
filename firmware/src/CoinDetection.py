@@ -13,18 +13,19 @@ class CoinDetection:
     # TODO
     _rgbLed: RgbLed
 
+    @classmethod
     def __setLed(self):
         if (self._balance >= GAME_COST):
             self._rgbLed.setLEDColor(0,3,0)
         else:
             self._rgbLed.setLEDColor(3,0,0)
-        pass
 
+    @classmethod
     def __detectFallingEdge(self):
         self._balance += 1
         self._setLed()
-        pass
 
+    @classmethod
     def init(self):
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(COIN_PIN, GPIO.IN, GPIO.PUD_UP)
@@ -32,6 +33,7 @@ class CoinDetection:
         attachInterrupt(digitalPinToInterrupt(COIN_PIN, self._detectFallingEdge(), FALLING))
         self._balance = 0
 
+    @classmethod
     def startGame(self):
         if (self._balance >= GAME_COST):
             self._balance -= GAME_COST
