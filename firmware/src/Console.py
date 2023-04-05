@@ -139,7 +139,9 @@ class Console:
         # Serial.println("alive")
 
     def addGame(self, newGame: Game):
-        pass # TODO
+        # In C++ mit this->gameCount++ post-incrementiert
+        self._games[self._gameCount] = newGame
+        self._gameCount += 1
 
     def stateDemo(self):
         pass # TODO
@@ -148,7 +150,11 @@ class Console:
         pass # TODO
 
     def getJoystick(self, index: c_ubyte) -> Joystick:
-        pass # TODO
+        # C++ Switch zu if/else umgewandelt
+        if (index == 1):
+            return self._joystickRight
+        else:
+            return self._joystickLeft
 
     @classmethod
     def checkMem(self):
