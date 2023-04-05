@@ -15,6 +15,8 @@ import Game
 
 import CoinDetection
 
+import random
+
 from ctypes import c_ubyte, c_byte, c_uint16
 
 CONSOLE_STATE_COIN = 0
@@ -103,7 +105,38 @@ class Console:
         CoinDetection.init()
 
     def process(self):
-        pass # TODO
+        if (self._mainClock.isTick()):
+            self._joystickLeft.process()
+            self._joystickRight.process()
+            color += 1
+            # TODO Auskommentierte Zeile
+            # C++: Serial.println(color);
+            # Serial.println(color)
+        
+        # C++ Switch zu if/else umgewandelt
+        if (self._state == CONSOLE_STATE_COIN):
+            self.displayCoinAnimation()
+
+            # TODO Auskommentierte Zeile
+            # C++: CoinDetection::toggleAnimation();
+            # CoinDetection.toggleAnimation()
+
+            if (CoinDetection.startGame()):
+                self._state = CONSOLE_STATE_DEMO
+        elif (self._state == CONSOLE_STATE_DEMO):
+            self.stateDemo()
+        elif (self._state == CONSOLE_STATE_GAME):
+            self._games[self._gameindex].process()
+            if (self._games[self._gameindex].getState() == GAME_STATE_PLAY_DEMO):
+                self._state = CONSOLE_STATE_COIN
+        
+        # TODO Funktionsaufruf
+        # C++: random();
+        random.random()
+
+        # TODO Auskommentierte Zeile
+        # C++: Serial.println("alive");
+        # Serial.println("alive")
 
     def addGame(self, newGame: Game):
         pass # TODO
