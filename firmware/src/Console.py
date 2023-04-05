@@ -29,6 +29,9 @@ game: Game
 
 color: c_ubyte
 
+COIN_MOVEMENT_DELAY = 10
+COIN_MOVEMENT_FRAME_MAX = 14
+
 class Console:
     def __init__(self):
         self._joystickLeft: Joystick
@@ -161,7 +164,25 @@ class Console:
             self._state = CONSOLE_STATE_GAME
 
     def displayCoinAnimation(self):
-        pass # TODO
+        coinXPos: c_ubyte
+        self._coinMovementDelay += 1
+
+        if (self._coinMovementDelay < COIN_MOVEMENT_DELAY):
+            return
+        
+        self._coinMovementDelay = 0
+        coinXPos = 18 - self._coinMovementFrame
+
+        Display.clearDisplay()
+        Display.matrix.drawRect(7, 1, 4, 14, Display.getColor(7, 7, 7))
+        Display.matrix.fillCircle(coinXPos, 8, 5, Display.getColor(7, 4, 0))
+        Display.matrix.fillRect(0, 0, 7, 16, Display.getColor(0, 0, 0))
+        Display.matrix.drawLine(7, 1, 7, 14, Display.getColor(7, 7, 7))
+
+        self._coinMovementFrame += 1
+
+        if (self._coinMovementFrame > COIN_MOVEMENT_FRAME_MAX):
+            self._coinMovementFrame = 0
 
     def getJoystick(self, index: c_ubyte) -> Joystick:
         # C++ Switch zu if/else umgewandelt
