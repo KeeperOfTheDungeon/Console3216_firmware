@@ -49,6 +49,9 @@ DISPLAY_SCALE_FACTOR: c_int16 = 64
 #       #define RED   this->matrix->Color333(7, 0, 0)
 #       #define CLEAR this->matrix->Color333(0, 0, 0)
 
+# TODO Globale Variable
+# C++ RGBmatrixPanel* Display::matrix;
+
 class Display:
     # TODO Pointer
     # C++: static RGBmatrixPanel* matrix;
@@ -68,7 +71,40 @@ class Display:
         # self.__RGBmtr: RGBMatrix
 
     def init(self):
-        pass # TODO
+        # TODO pinMode wahrscheinlich Arduino Code
+        # Raspberry Pi Variante in Python:
+        # GPIO.setup(PIN_DISPLAY_CLK, GPIO.OUT)
+        # GPIO.setup(PIN_DISPLAY_OE, GPIO.OUT)
+        # GPIO.setup(PIN_DISPLAY_B2, GPIO.OUT)
+        # GPIO.setup(PIN_DISPLAY_G2, GPIO.OUT)
+        # GPIO.setup(PIN_DISPLAY_R2, GPIO.OUT)
+        # GPIO.setup(PIN_DISPLAY_B1, GPIO.OUT)
+        # GPIO.setup(PIN_DISPLAY_G1, GPIO.OUT)
+        # GPIO.setup(PIN_DISPLAY_R1, GPIO.OUT)
+        # GPIO.setup(PIN_DISPLAY_LAT, GPIO.OUT)
+        # GPIO.setup(PIN_DISPLAY_C, GPIO.OUT)
+        # GPIO.setup(PIN_DISPLAY_B, GPIO.OUT)
+        # GPIO.setup(PIN_DISPLAY_A, GPIO.OUT)
+        # Vorerst Originalcode:
+        pinMode(PIN_DISPLAY_CLK, OUTPUT) # Comment: "CLK input ?"
+        pinMode(PIN_DISPLAY_OE, OUTPUT) # Comment: "OE  input ?"
+        pinMode(PIN_DISPLAY_B2, OUTPUT)
+        pinMode(PIN_DISPLAY_G2, OUTPUT)
+        pinMode(PIN_DISPLAY_R2, OUTPUT)
+        pinMode(PIN_DISPLAY_B1, OUTPUT)
+        pinMode(PIN_DISPLAY_G1, OUTPUT)
+        pinMode(PIN_DISPLAY_R1, OUTPUT)
+        pinMode(PIN_DISPLAY_LAT, OUTPUT)
+        pinMode(PIN_DISPLAY_C, OUTPUT)
+        pinMode(PIN_DISPLAY_B, OUTPUT)
+        pinMode(PIN_DISPLAY_A, OUTPUT)
+
+        # Wurde in C++ mit "new" angelegt, weil matrix ein Pointer ist
+        Display.matrix = RGBMatrixPanel(A, B, C, CLK, LAT, OE, True)
+        Display.matrix.begin()
+        Display.matrix.fillScreen(self.matrix.Color333(0, 0, 7)) # BLUE Macro
+        Display.matrix.fillScreen(self.matrix.Color333(0, 0, 0)) # CLEAR Macro
+
 
     @classmethod
     def refresh(self):
