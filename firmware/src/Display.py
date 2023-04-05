@@ -58,7 +58,7 @@ class Display:
     matrix: RGBMatrixPanel
     
     def __rescaleToLocal(coordinate: c_int16):
-        pass # TODO
+        return coordinate / DISPLAY_SCALE_FACTOR
 
     def __init__(self) -> None:
         self.__prevBallX: c_int16
@@ -129,12 +129,15 @@ class Display:
 
     @classmethod
     def drawText(self, text: c_char, x: c_int16, y: c_int16, color: c_int16, scaleFactor: c_int16):
-        pass # TODO
+        Display.matrix.setCursor(x, y)
+        Display.matrix.setTextColor(color)
+        Display.matrix.setTextSize(scaleFactor)
+        Display.matrix.print(text)
 
     @classmethod
     def getColor(self, red: c_ubyte, green: c_ubyte, blue: c_ubyte) -> c_uint16:
-        pass # TODO
+        return Display.matrix.Color333(red, green, blue)
 
     @classmethod
     def drawBitmap(self, x: c_int16, y: c_int16, bitmap: c_ubyte, width: c_int16, height: c_int16, color: c_int16):
-        pass # TODO
+        self.matrix.drawBitmap(self.__rescaleToLocal(x), self.__rescaleToLocal(y), bitmap, width, height, color)
