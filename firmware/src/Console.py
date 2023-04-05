@@ -193,4 +193,21 @@ class Console:
 
     @classmethod
     def checkMem(self):
-        pass # TODO
+        # Original C++ Methode:
+        # void Console::checkMem()
+        # { 
+
+        #     uint8_t * t;
+        #     t = malloc(1);
+        #     Serial.print("mem : ");
+        #     Serial.println((uint32_t)t,HEX);
+        #     free(t);
+
+        #     uint8_t a;
+        #     Serial.print("heap : ");
+        #     Serial.println((uint32_t)&a,HEX);
+        # }
+
+        # Die Methode macht nur ein wenig mit Speicher rum und gibt was aus.
+        # Unwichtig für die Ausführung.
+        pass
