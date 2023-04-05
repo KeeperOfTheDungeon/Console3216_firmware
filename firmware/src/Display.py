@@ -108,11 +108,12 @@ class Display:
 
     @classmethod
     def refresh(self):
-        pass # TODO
+        Display.matrix.swapBuffers(False)
 
     @classmethod
     def drawPixel(self, x: c_ubyte, y: c_ubyte, color: c_uint16):
-        pass # TODO
+        if ((x < DISPLAY_X_EXTEND) and (y < DISPLAY_Y_EXTEND)):
+            Display.matrix.drawPixel(x, y, color)
 
     # TODO Auskommentierte Zeile
     # C++: static void drawRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color);
@@ -121,7 +122,10 @@ class Display:
 
     @classmethod
     def clearDisplay(self):
-        pass # TODO
+        # TODO Auskommentierte Zeile
+        # C++: this->matrix->fillScreen(BLUE);
+        # self.matrix.fillScreen(self.matrix.Color333(0, 0, 7))
+        Display.matrix.fillScreen(0)
 
     @classmethod
     def drawText(self, text: c_char, x: c_int16, y: c_int16, color: c_int16, scaleFactor: c_int16):
