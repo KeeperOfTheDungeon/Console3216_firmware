@@ -144,7 +144,21 @@ class Console:
         self._gameCount += 1
 
     def stateDemo(self):
-        pass # TODO
+        if ((self._joystickLeft.getControlStatus(JOYSTICK_SWITCH_LEFT) == JOYSTICK_STATUS_PRESSED) or
+            self._joystickRight.getControlStatus(JOYSTICK_SWITCH_LEFT) == JOYSTICK_STATUS_PRESSED):
+            self._gameindex -= 1
+            if (self._gameindex < 0):
+                self._gameindex = self._gameCount - 1
+        
+        if ((self._joystickLeft.getControlStatus(JOYSTICK_SWITCH_RIGHT) == JOYSTICK_STATUS_PRESSED) or
+            self._joystickRight.getControlStatus(JOYSTICK_SWITCH_RIGHT) == JOYSTICK_STATUS_PRESSED):
+            self._gameindex += 1
+            if (self._gameindex > (self._gameCount - 1)):
+                self._gameindex = 0
+        
+        self._games[self._gameindex].process()
+        if (self._games[self._gameindex].getState() == GAME_STATE_CONFIG):
+            self._state = CONSOLE_STATE_GAME
 
     def displayCoinAnimation(self):
         pass # TODO
