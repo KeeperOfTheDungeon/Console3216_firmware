@@ -28,36 +28,37 @@ game: Game
 color: c_ubyte
 
 class Console:
-    _joystickLeft: Joystick
-    _joystickRight: Joystick
+    def __init__(self):
+        self._joystickLeft: Joystick
+        self._joystickRight: Joystick
 
-    _rgbLed: RgbLed
+        self._rgbLed: RgbLed
 
-    _display: Display
+        self._display: Display
 
-    _mainClock: MainClock
+        self._mainClock: MainClock
 
-    _state: c_ubyte
-    
-    # TODO Pointer
-    # C++: Game * games[10];
-    # Leeres, 10 Elemente großes Array wird angelegt
-    _games: Game = [] * 10
-    
-    _gameCount: c_ubyte
-    _gameindex: c_byte
-    
-    # TODO Pointer
-    # C++: Game * actualGame;
-    _actualGame: Game
+        self._state: c_ubyte
 
-    # TODO auf 12 Bits beschränken
-    # C++: uint16_t coinMovementDelay:12;
-    _coinMovementDelay: c_uint16
+        # TODO Pointer
+        # C++: Game * games[10];
+        # Leeres, 10 Elemente großes Array wird angelegt
+        self._games: Game = [] * 10
 
-    # TODO auf 4 Bits beschränken
-    # C++: uint16_t coinMovementFrame:4;
-    _coinMovementFrame: c_uint16
+        self._gameCount: c_ubyte
+        self._gameindex: c_byte
+
+        # TODO Pointer
+        # C++: Game * actualGame;
+        self._actualGame: Game
+
+        # TODO auf 12 Bits beschränken
+        # C++: uint16_t coinMovementDelay:12;
+        self._coinMovementDelay: c_uint16
+
+        # TODO auf 4 Bits beschränken
+        # C++: uint16_t coinMovementFrame:4;
+        self._coinMovementFrame: c_uint16
 
     def init(self):
         self._gameCount = 0
@@ -116,6 +117,6 @@ class Console:
     def getJoystick(self, index: c_ubyte) -> Joystick:
         pass # TODO
 
-    @staticmethod
-    def checkMem():
+    @classmethod
+    def checkMem(self):
         pass # TODO
