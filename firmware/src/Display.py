@@ -3,141 +3,139 @@
 # gfxfront.h
 # RGBMatrixPanel.h
 
-import Microcontroller
-
-from ctypes import c_int16, c_uint16, c_ubyte, c_char
+import os
+# TODO Unbenutzter Import
+# import Microcontroller
+from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
 
 DISPLAY_X_EXTEND = 32
 DISPLAY_Y_EXTEND = 16
 
-CLK = 11
+# Matrix Options
+DISPLAY_X = 32
+DISPLAY_Y = 16
+DISPLAY_SCALE_FACTOR = 64
+DISPLAY_CHAIN = 1
+HARDWARE_MAPPING = "adafruit-hat"
 
-# TODO
-# C++: #define LAT A3
-LAT = A3
+# TODO Schriftarten
+# In der C++ Implementierung konnte ein Skalierungsfaktor angegeben werden,
+# das simulieren wir indem wir einfach mehrere Schriftarten verwenden
+# TODO Liste nicht fertig
+FONT_LIST = ["4x6.bdf", "6x9.bdf"]
 
-OE = 9
-
-# TODO
-# C++:  #define A A0
-#       #define B A1
-#       #define C A2
-A = A0
-B = A1
-C = A2
-
-DISPLAY_X: c_int16 = 32
-DISPLAY_Y: c_int16 = 16
-DISPLAY_SCALE_FACTOR: c_int16 = 64
-
-# TODO Auskommentierte Zeilen
-# C++:  const int16_t CALCULATION_SIZE = 512
-
-#       #define WHITE   0xFFFF
-#       #define BLACK   0x0000
-#       #define CYAN    0x07FF
-
-# CALCULATION_SIZE: c_int16 = 512
-
-# WHITE = 0xFFFF
-# BLACK = 0x0000
-# CYAN  = 0x07FF#
-
-# TODO Macros
-# C++:  #define GREEN this->matrix->Color333(0, 7, 0)
-#       #define BLUE  this->matrix->Color333(0, 0, 7)
-#       #define RED   this->matrix->Color333(7, 0, 0)
-#       #define CLEAR this->matrix->Color333(0, 0, 0)
-
-# TODO Globale Variable
-# C++ RGBmatrixPanel* Display::matrix;
 
 class Display:
-    # TODO Pointer
-    # C++: static RGBmatrixPanel* matrix;
-    matrix: RGBMatrixPanel
-    
-    def __rescaleToLocal(coordinate: c_int16):
-        return coordinate / DISPLAY_SCALE_FACTOR
+    matrix: RGBMatrix
+    fonts: list
 
-    def __init__(self) -> None:
-        self.__prevBallX: c_int16
-        self.__prevBallY: c_int16
-        self.__prevP1: c_int16
-        self.__prevP2: c_int16
+    # def __rescale_to_local(self, coordinate: int):
+    #     return coordinate / DISPLAY_SCALE_FACTOR
 
-        # TODO Auskommentierte Zeile
-        # C++: RGBmatrix RGBmtr;
-        # self.__RGBmtr: RGBMatrix
+    # TODO Konstruktor in C++ vorhanden
+    def __init__(self):
+        # TODO Aus C++ übernommen, wird aber anscheinend nirgendwo verwendet
+        self.__prevBallX: int
+        self.__prevBallY: int
+        self.__prevP1: int
+        self.__prevP2: int
 
-    def init(self):
-        # TODO pinMode wahrscheinlich Arduino Code
-        # Raspberry Pi Variante in Python:
-        # GPIO.setup(PIN_DISPLAY_CLK, GPIO.OUT)
-        # GPIO.setup(PIN_DISPLAY_OE, GPIO.OUT)
-        # GPIO.setup(PIN_DISPLAY_B2, GPIO.OUT)
-        # GPIO.setup(PIN_DISPLAY_G2, GPIO.OUT)
-        # GPIO.setup(PIN_DISPLAY_R2, GPIO.OUT)
-        # GPIO.setup(PIN_DISPLAY_B1, GPIO.OUT)
-        # GPIO.setup(PIN_DISPLAY_G1, GPIO.OUT)
-        # GPIO.setup(PIN_DISPLAY_R1, GPIO.OUT)
-        # GPIO.setup(PIN_DISPLAY_LAT, GPIO.OUT)
-        # GPIO.setup(PIN_DISPLAY_C, GPIO.OUT)
-        # GPIO.setup(PIN_DISPLAY_B, GPIO.OUT)
-        # GPIO.setup(PIN_DISPLAY_A, GPIO.OUT)
-        # Vorerst Originalcode:
-        pinMode(PIN_DISPLAY_CLK, OUTPUT) # Comment: "CLK input ?"
-        pinMode(PIN_DISPLAY_OE, OUTPUT) # Comment: "OE  input ?"
-        pinMode(PIN_DISPLAY_B2, OUTPUT)
-        pinMode(PIN_DISPLAY_G2, OUTPUT)
-        pinMode(PIN_DISPLAY_R2, OUTPUT)
-        pinMode(PIN_DISPLAY_B1, OUTPUT)
-        pinMode(PIN_DISPLAY_G1, OUTPUT)
-        pinMode(PIN_DISPLAY_R1, OUTPUT)
-        pinMode(PIN_DISPLAY_LAT, OUTPUT)
-        pinMode(PIN_DISPLAY_C, OUTPUT)
-        pinMode(PIN_DISPLAY_B, OUTPUT)
-        pinMode(PIN_DISPLAY_A, OUTPUT)
-
+    @classmethod
+    def init(cls):
+        # TODO Alter Matrix Init Code
         # Wurde in C++ mit "new" angelegt, weil matrix ein Pointer ist
-        Display.matrix = RGBMatrixPanel(A, B, C, CLK, LAT, OE, True)
-        Display.matrix.begin()
-        Display.matrix.fillScreen(self.matrix.Color333(0, 0, 7)) # BLUE Macro
-        Display.matrix.fillScreen(self.matrix.Color333(0, 0, 0)) # CLEAR Macro
+        # Display.matrix = RGBMatrixPanel(A, B, C, CLK, LAT, OE, True)
+        # Display.matrix.begin()
+        # Display.matrix.fillScreen(self.matrix.Color333(0, 0, 7)) # BLUE
+        # Display.matrix.fillScreen(self.matrix.Color333(0, 0, 0)) # CLEAR
 
+        # Neuer Matrix Init Code
+        matrix_options = RGBMatrixOptions()
+        matrix_options.rows = DISPLAY_X
+        matrix_options.cols = DISPLAY_Y
+        matrix_options.chain_length = DISPLAY_CHAIN
+        matrix_options.hardware_mapping = HARDWARE_MAPPING
+
+        # Schriftarten laden
+        cls.import_fonts()
+
+        cls.matrix = RGBMatrix(options=matrix_options)
+        cls.matrix.Clear()
 
     @classmethod
-    def refresh(self):
-        Display.matrix.swapBuffers(False)
+    def import_fonts(cls):
+        """_summary_
+        Importiert die Schriftarten für die Textausgabe
+        """
+        font_path = os.path.join(os.path.curdir, "fonts")
+
+        # TODO 2 mögliche Methoden zum importieren von Schriftarten
+
+        # Methode 1:
+        # Schriftarten werden manuell in ein Array eingetragen
+        # Vorteil: Reihenfolge kann direkt festgelegt werden
+        # Nachteil: Hardcoded und muss im Code angepasst werden,
+        # wenn nötog.
+        for font in FONT_LIST:
+            cls.fonts.append(graphics.Font())
+            cls.fonts[-1].LoadFont(os.path.join(font_path, font))
+
+        # Methode 2:
+        # Alle Schriftarten, die sich im Ordner befinden, werden geladen
+        # Vorteil: Code muss nicht angepasst werden, wenn die Schriftarten
+        # sich ändern.
+        # Nachteil: Reihenfolge muss im Dateinamen festgemacht werden,
+        # Tests nötig, ob die Dateien in der gewünschten Reihenfolge
+        # behandelt werden
+        for filename in os.listdir(font_path):
+            if filename.endswith(".bdf"):
+                file_path = os.path.join(os.path.curdir, filename)
+                cls.fonts.append(graphics.Font())
+                cls.fonts[-1].LoadFont(file_path)
 
     @classmethod
-    def drawPixel(self, x: c_ubyte, y: c_ubyte, color: c_uint16):
+    def refresh(cls):
+        Display.matrix.SwapOnVSync()
+
+    @classmethod
+    def drawPixel(cls, x: int, y: int, r: int, g: int, b: int):
         if ((x < DISPLAY_X_EXTEND) and (y < DISPLAY_Y_EXTEND)):
-            Display.matrix.drawPixel(x, y, color)
+            Display.matrix.SetPixel(x, y, r, g, b)
 
     # TODO Auskommentierte Zeile
-    # C++: static void drawRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color);
+    # C++: static void drawRect(int16_t x, int16_t y,
+    #                           int16_t w, int16_t h, uint16_t color);
     # @classmethod
-    # def drawRect(self, x: c_int16, y: c_int16, w: c_int16, h: c_int16, color: c_uint16)
+    # def drawRect(self, x: int, y: int, w: int, h: int, color: int)
 
     @classmethod
-    def clearDisplay(self):
-        # TODO Auskommentierte Zeile
-        # C++: this->matrix->fillScreen(BLUE);
-        # self.matrix.fillScreen(self.matrix.Color333(0, 0, 7))
-        Display.matrix.fillScreen(0)
+    def clearDisplay(cls):
+        cls.matrix.Clear()
 
     @classmethod
-    def drawText(self, text: c_char, x: c_int16, y: c_int16, color: c_int16, scaleFactor: c_int16):
-        Display.matrix.setCursor(x, y)
-        Display.matrix.setTextColor(color)
-        Display.matrix.setTextSize(scaleFactor)
-        Display.matrix.print(text)
+    def drawText(cls, text: str, x: int, y: int, r, g, b, scaleFactor: int):
+        # cls.matrix.setCursor(x, y)
+        # cls.matrix.setTextColor(color)
+        # cls.matrix.setTextSize(scaleFactor)
+        # cls.matrix.print(text)
+        color = graphics.Color(r, g, b)
+        # TODO Skalierungsfaktor mit mehreren Schriftarten simulieren
+        # TODO Erster Parameter gibt Canvas an
+        # Eventuell muss neuer Hintergrund Canvas erzeugt werden
+        graphics.DrawText(cls.matrix,
+                          cls.fonts[scaleFactor],
+                          x, y,
+                          color,
+                          text)
 
-    @classmethod
-    def getColor(self, red: c_ubyte, green: c_ubyte, blue: c_ubyte) -> c_uint16:
-        return Display.matrix.Color333(red, green, blue)
+    # TODO Nicht mehr benötigt
+    # Farbe wird nun als 3 ints, 0-255 r, g, b angegeben
+    # @classmethod
+    # def getColor(self, red: int, green: int, blue: int) -> int:
+    #    return Display.matrix.Color333(red, green, blue)
 
-    @classmethod
-    def drawBitmap(self, x: c_int16, y: c_int16, bitmap: c_ubyte, width: c_int16, height: c_int16, color: c_int16):
-        self.matrix.drawBitmap(self.__rescaleToLocal(x), self.__rescaleToLocal(y), bitmap, width, height, color)
+    # TODO Kein Python Äquivalent, dafür können jetzt Bilddateien angezeigt werden
+    # Wird aber eventuell nicht benötigt
+    # @classmethod
+    # def drawBitmap(cls, x: int, y: int, bitmap: int, width: int, height: int, color: int):
+    #     self.matrix.drawBitmap(self.__rescaleToLocal(x), self.__rescaleToLocal(y), bitmap, width, height, color)
