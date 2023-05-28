@@ -1,3 +1,4 @@
+
 # TODO
 # C++: #include <Arduino.h>
 
@@ -15,7 +16,6 @@ import StartButton
 
 import Display
 
-from ctypes import c_ubyte, c_uint32, c_uint16
 
 GAME_STATE_PREPARE_DEMO			= 0
 GAME_STATE_PLAY_DEMO			= GAME_STATE_PREPARE_DEMO + 1
@@ -44,6 +44,7 @@ PLAYER_TYPE_AI_9		= 10
 
 GAME_NAME_MAX_LENGHT = 6
 
+
 # TODO Struct
 # C++:
 # typedef struct  {
@@ -52,8 +53,9 @@ GAME_NAME_MAX_LENGHT = 6
 # } Score_t;
 class Score_t:
     def __init__(self, score, name) -> None:
-        self.score: c_uint16 = score
+        self.score: int = score
         self.name: str = name
+
 
 class Game:
     def __init__(self, leftJoystick: Joystick, rightJoystick: Joystick, name: str):
@@ -63,18 +65,18 @@ class Game:
         self._joystickLeft: Joystick
         self._joystickRight: Joystick
 
-        self._state: c_ubyte
-        self._time: c_uint32
+        self._state: int
+        self._time: int
 
         # TODO Auf 4 Bits begrenzt
         # C++:  uint8_t player1Type:4;
         #       uint8_t player2Type:4;
-        self._player1Type: c_ubyte
-        self._player2Type: c_ubyte
+        self._player1Type: int
+        self._player2Type: int
 
         # TODO Auf 2 Bits begrenzt
         # C++:  uint8_t startButtonStatus:2;
-        self._startButtonStatus: c_ubyte
+        self._startButtonStatus: int
 
         self._currentScore: Score_t(0, "   ")
 
@@ -85,7 +87,7 @@ class Game:
         # C++: Score_t Highscores[3] = { {0, "   "}, {0, "   "}, {0, "   "} };
 
         self.__isHighscore: int
-        self.__click_Count: c_ubyte = 0
+        self.__click_Count: int = 0
 
     # TODO BEGIN Virtuelle Methoden:
     def process(self):
@@ -137,7 +139,7 @@ class Game:
     def _configurePlayer(self, playerNr: c_ubyte, joystick: Joystick, playerType: c_ubyte) -> c_ubyte:
         pass # TODO
 
-    def __submitHighscore():
+    def __submitHighscore(self):
         pass # TODO
 
     def __enterName(self, s: Score_t):
