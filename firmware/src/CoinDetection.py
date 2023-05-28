@@ -1,42 +1,46 @@
-from ctypes import c_ubyte
 
-import RPi.GPIO as GPIO
+# TODO Wahrscheinlich nicht nötig, wegen dem Matrix Bonnet
+# import RPi.GPIO as GPIO
+
 # TODO
 import RgbLed
 
 COIN_PIN = 19
 GAME_COST = 1
 
+
 class CoinDetection:
     # TODO
-    _balance: c_ubyte
+    _balance: int
     # TODO
     _rgbLed: RgbLed
 
     @classmethod
-    def __setLed(self):
-        if (self._balance >= GAME_COST):
-            self._rgbLed.setLEDColor(0,3,0)
+    def __setLed(cls):
+        if cls._balance >= GAME_COST:
+            cls._rgbLed.setLEDColorRGB(0, 3, 0)
         else:
-            self._rgbLed.setLEDColor(3,0,0)
+            cls._rgbLed.setLEDColorRGB(3, 0, 0)
 
     @classmethod
-    def __detectFallingEdge(self):
-        self._balance += 1
-        self._setLed()
+    def __detectFallingEdge(cls):
+        cls._balance += 1
+        cls.__setLed()
 
     @classmethod
-    def init(self):
-        GPIO.setmode(GPIO.BCM)
-        GPIO.setup(COIN_PIN, GPIO.IN, GPIO.PUD_UP)
-        # TODO
-        attachInterrupt(digitalPinToInterrupt(COIN_PIN, self._detectFallingEdge(), FALLING))
-        self._balance = 0
+    def init(cls):
+        # TODO Python Variante des C++ Codes, um die Pins zu aktivieren
+        # Wahrscheinlich nicht mehr benötigt
+        # GPIO.setmode(GPIO.BCM)
+        # GPIO.setup(COIN_PIN, GPIO.IN, GPIO.PUD_UP)
+        # TODO Aus C++ Quellcode, wahrscheinlich nicht mehr benötigt
+        # attachInterrupt(digitalPinToInterrupt(COIN_PIN, self._detectFallingEdge(), FALLING))
+        cls._balance = 0
 
     @classmethod
-    def startGame(self):
-        if (self._balance >= GAME_COST):
-            self._balance -= GAME_COST
-            self._setLed()
+    def startGame(cls):
+        if cls._balance >= GAME_COST:
+            cls._balance -= GAME_COST
+            cls.__setLed()
             return True
         return False
