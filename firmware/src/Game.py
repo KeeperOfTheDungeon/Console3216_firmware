@@ -191,10 +191,13 @@ class Game:
         pass
 
     def _timeStart(self):
-        pass # TODO
+        self._time = 0
+        pass
 
     def _timeCountUp(self):
-        pass # TODO
+        # TODO Noch nicht klar, wo TIME_BASIS_MS in C++ deklariert wurde
+        self._time += TIME_BASIS_MS
+        pass
 
     def _displayNewHighscore(self):
         pass # TODO
