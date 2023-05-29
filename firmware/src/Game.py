@@ -115,7 +115,43 @@ class Game:
 
     # TODO BEGIN Virtuelle Methoden:
     def process(self):
-        pass # TODO
+        if self._state == GAME_STATE_PREPARE_DEMO:
+            self._prepareDemo()
+            self._state = GAME_STATE_PLAY_DEMO
+        elif self._state == GAME_STATE_PLAY_DEMO:
+            # TODO Noch nicht implementiert
+            if StartButton.getStatus() == START_BUTTON_PRESSED:
+                self._state = GAME_STATE_CONFIG
+        elif self._state == GAME_STATE_CONFIG:
+            self._configMultiplayerGame()
+            if StartButton.getStatus() == START_BUTTON_PRESSED:
+                self._prepareGame()
+                self._state = GAME_STATE_PLAY
+        elif self._state == GAME_STATE_PLAY:
+            self._playGame()
+        elif self._state == GAME_STATE_SCORE:
+            self.__submitHighscore()
+            if self.__isHighscore < 0:
+                self._state = GAME_STATE_DISPLAY_HIGHSCORES
+            else:
+                self._state = GAME_STATE_HIGHSCORE_GRAPHIC
+        elif self._state == GAME_STATE_HIGHSCORE_GRAPHIC:
+            self._displayNewHighscore()
+            if StartButton.getStatus() == START_BUTTON_PRESSED:
+                self._state = GAME_STATE_HIGHSCORE_NAME
+        elif self._state == GAME_STATE_HIGHSCORE_NAME:
+            self.__enterName(self._Highscores[self.__isHighscore])
+        elif self._state == GAME_STATE_DISPLAY_HIGHSCORES:
+            self._displayHighscores()
+            if StartButton.getStatus() == START_BUTTON_PRESSED:
+                self.__click_Count = 0
+                self._state = GAME_STATE_PREPARE_DEMO
+        elif self._state == GAME_STATE_END:
+            self._gameOver()
+            if StartButton.getStatus() == START_BUTTON_PRESSED:
+                self._state = GAME_STATE_PREPARE_DEMO
+    
+        self._timeCountUp()
 
     def _draw(self):
         pass # TODO
