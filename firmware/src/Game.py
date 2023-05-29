@@ -58,12 +58,16 @@ class Score_t:
 
 
 class Game:
-    def __init__(self, leftJoystick: Joystick, rightJoystick: Joystick, name: str):
+    # TODO gameName ist ein char Pointer in C++
+    def __init__(self, leftJoystick: Joystick, rightJoystick: Joystick, gameName: int):
         # TODO Pointer
         # C++:  Joystick * joystickLeft;
         #       Joystick * joystickRight;
         self._joystickLeft: Joystick
         self._joystickRight: Joystick
+
+        # C++: char name[GAME_NAME_MAX_LENGHT];
+        self._name: int = [0] * GAME_NAME_MAX_LENGHT
 
         self._state: int
         self._time: int
@@ -88,6 +92,26 @@ class Game:
 
         self.__isHighscore: int
         self.__click_Count: int = 0
+
+        # TODO Serial nicht implementiert/importiert
+        # C++ Code:
+        # Serial.print("stick : ");
+        # Serial.println((uint32_t) &leftJoystick, HEX);
+        self._joystickLeft = leftJoystick
+        # Serial.println((uint32_t) &rightJoystick, HEX);
+        self._joystickRight = rightJoystick
+
+        # TODO C++:
+        # for (uint8_t counter = 0; counter < GAME_NAME_MAX_LENGHT; counter++) {
+        # this->name[counter] = *gameName++;
+        # }
+        # this->name[GAME_NAME_MAX_LENGHT - 1] = 0;
+        for counter in range(0, GAME_NAME_MAX_LENGHT):
+            self._name[counter] = gameName
+            gameName += 1
+
+        self._name[-1] = 0
+        self._state = GAME_STATE_PREPARE_DEMO
 
     # TODO BEGIN Virtuelle Methoden:
     def process(self):
@@ -127,7 +151,7 @@ class Game:
         pass # TODO
     # TODO END Virtuelle Methoden
 
-    def setState(self, newState: c_ubyte):
+    def setState(self, newState: int):
         pass # TODO
 
     def getState(self):
@@ -136,7 +160,7 @@ class Game:
     def _configMultiplayerGame(self):
         pass # TODO
 
-    def _configurePlayer(self, playerNr: c_ubyte, joystick: Joystick, playerType: c_ubyte) -> c_ubyte:
+    def _configurePlayer(self, playerNr: int, joystick: Joystick, playerType: int) -> int:
         pass # TODO
 
     def __submitHighscore(self):
