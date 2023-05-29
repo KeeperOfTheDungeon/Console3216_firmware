@@ -154,25 +154,41 @@ class Game:
         self._timeCountUp()
 
     def _draw(self):
-        pass # TODO
+        # TODO In C++ game.cpp leer
+        pass
 
     def _play(self):
-        pass # TODO
+        # TODO In C++ game.cpp leer
+        pass
 
     def _prepareDemo(self):
-        pass # TODO
+        # TODO In C++ game.cpp leer
+        pass
 
     def _playDemo(self):
-        pass # TODO
+        # TODO In C++ game.cpp leer
+        pass
 
     def _prepareGame(self):
-        pass # TODO
+        # TODO In C++ game.cpp leer
+        pass
 
     def _playGame(self):
-        pass # TODO
+        # TODO In C++ game.cpp leer
+        pass
 
     def _gameOver(self):
-        pass # TODO
+        # Farbe wird nicht mehr in 9 bit angegeben, sondern 24 bit (3x 255)
+        # Umrechnung erfolgt wie folgt: 256 / 8 * x - 1
+        # C++ Code:
+        # uint16_t textColor;
+        # textColor = Display::getColor(2, 2, 0);
+        Display.Display.clearDisplay()
+        Display.Display.drawText("GAME", 4, 0, 63, 63, 0, 1)
+        Display.Display.drawText("OVER", 4, 8, 63, 63, 0, 1)
+
+        Display.Display.refresh()
+        pass
 
     def _timeStart(self):
         pass # TODO
