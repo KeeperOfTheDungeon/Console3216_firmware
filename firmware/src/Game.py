@@ -200,7 +200,15 @@ class Game:
         pass
 
     def _displayNewHighscore(self):
-        pass # TODO
+        Display.Display.clearDisplay()
+        Display.Display.drawText("NEW HS", 4, 0, 63, 63, 0, 1)
+
+        Display.Display.refresh()
+        # TODO Noch nicht implementiert
+        # TODO C++ Code:
+        # NumericDisplay::displayValue(1, this->currentScore.score);
+        NumericDisplay.NumericDisplay.displayValue(1, self._currentScore.score)
+        pass
 
     def _displayHighscores(self):
         pass # TODO
