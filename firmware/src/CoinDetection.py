@@ -2,17 +2,21 @@
 # TODO Wahrscheinlich nicht nötig, wegen dem Matrix Bonnet
 # import RPi.GPIO as GPIO
 
+# TODO Arduino.h wurde in C++ importiert
+# Eventuell wurde dort attachInterrupt() definiert, 
+# welches in init() verwendet wird.
+
 # TODO
-import RgbLed
+#import RgbLed
+from RgbLed import *
+from Display import *
 
 COIN_PIN = 19
 GAME_COST = 1
 
 
 class CoinDetection:
-    # TODO
     _balance: int
-    # TODO
     _rgbLed: RgbLed
 
     @classmethod
