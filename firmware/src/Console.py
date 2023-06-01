@@ -1,23 +1,15 @@
-# TODO
-import Microcontroller
-# TODO
-import Joystick
-# TODO
-import StartButton
-# TODO
-import RgbLed
-# TODO
-import Display
-# TODO
-import MainClock
-# TODO
-import Game
-
-import CoinDetection
 
 import random
 
-from ctypes import c_ubyte, c_byte, c_uint16
+from Microcontroller import *
+from Joystick import *
+from StartButton import *
+from RgbLed import *
+from Display import *
+from MainClock import *
+from Game import *
+from CoinDetection import *
+
 
 CONSOLE_STATE_COIN = 0
 CONSOLE_STATE_DEMO = 1
@@ -27,7 +19,7 @@ CONSOLE_STATE_GAME = 2
 # C++ Game *game;
 game: Game
 
-color: c_ubyte
+color: int
 
 COIN_MOVEMENT_DELAY = 10
 COIN_MOVEMENT_FRAME_MAX = 14
@@ -43,15 +35,15 @@ class Console:
 
         self._mainClock: MainClock
 
-        self._state: c_ubyte
+        self._state: int
 
         # TODO Pointer
         # C++: Game * games[10];
         # Leeres, 10 Elemente großes Array wird angelegt
         self._games: Game = [] * 10
 
-        self._gameCount: c_ubyte
-        self._gameindex: c_byte
+        self._gameCount: int
+        self._gameindex: int
 
         # TODO Pointer
         # C++: Game * actualGame;
@@ -59,11 +51,11 @@ class Console:
 
         # TODO auf 12 Bits beschränken
         # C++: uint16_t coinMovementDelay:12;
-        self._coinMovementDelay: c_uint16
+        self._coinMovementDelay: int
 
         # TODO auf 4 Bits beschränken
         # C++: uint16_t coinMovementFrame:4;
-        self._coinMovementFrame: c_uint16
+        self._coinMovementFrame: int
 
     def init(self):
         self._gameCount = 0
@@ -164,7 +156,7 @@ class Console:
             self._state = CONSOLE_STATE_GAME
 
     def displayCoinAnimation(self):
-        coinXPos: c_ubyte
+        coinXPos: int
         self._coinMovementDelay += 1
 
         if (self._coinMovementDelay < COIN_MOVEMENT_DELAY):
@@ -184,7 +176,7 @@ class Console:
         if (self._coinMovementFrame > COIN_MOVEMENT_FRAME_MAX):
             self._coinMovementFrame = 0
 
-    def getJoystick(self, index: c_ubyte) -> Joystick:
+    def getJoystick(self, index: int) -> Joystick:
         # C++ Switch zu if/else umgewandelt
         if (index == 1):
             return self._joystickRight
