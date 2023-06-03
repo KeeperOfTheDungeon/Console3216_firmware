@@ -240,7 +240,14 @@ class Game:
         return self._state
 
     def _configMultiplayerGame(self):
-        pass # TODO
+        Display.clearDisplay()
+        Display.drawText(self._name, 4, 0, 0, 63, 0, 1)
+
+        self._player1Type = self._configurePlayer(0, self._joystickLeft, self._player1Type)
+        self._player2Type = self._configurePlayer(1, self._joystickRight, self._player2Type)
+
+        Display.refresh()
+        pass
 
     def _configurePlayer(self, playerNr: int, joystick: Joystick, playerType: int) -> int:
         # C++ Quellcode:
