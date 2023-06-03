@@ -51,7 +51,7 @@ class Score_t:
 
 class Game:
     # TODO gameName ist ein char Pointer in C++
-    def __init__(self, leftJoystick: Joystick, rightJoystick: Joystick, gameName: int):
+    def __init__(self, leftJoystick: Joystick, rightJoystick: Joystick, gameName: str):
         # TODO Pointer
         # C++:  Joystick * joystickLeft;
         #       Joystick * joystickRight;
@@ -59,7 +59,8 @@ class Game:
         self._joystickRight: Joystick
 
         # C++: char name[GAME_NAME_MAX_LENGHT];
-        self._name: int = [0] * GAME_NAME_MAX_LENGHT
+        # TODO Alter Code: self._name = [""] * GAME_NAME_MAX_LENGHT
+        self._name = gameName
 
         self._state: int
         self._time: int
@@ -98,11 +99,12 @@ class Game:
         # this->name[counter] = *gameName++;
         # }
         # this->name[GAME_NAME_MAX_LENGHT - 1] = 0;
-        for counter in range(0, GAME_NAME_MAX_LENGHT):
-            self._name[counter] = gameName
-            gameName += 1
+        # TODO gameName vorerst in str umgewandelt und einfach übernommen
+        # for counter in range(0, GAME_NAME_MAX_LENGHT):
+        #     self._name[counter] = gameName
+        #     gameName += 1
 
-        self._name[-1] = 0
+        # self._name[-1] = 0
         self._state = GAME_STATE_PREPARE_DEMO
 
     # TODO BEGIN Virtuelle Methoden:
@@ -316,9 +318,6 @@ class Game:
         # delay(100);
         # Aus Arduino.h, genaue Funktionalität unklar
         pass
-
-    def __enterNameWithLoops(self, s: Score_t):
-        pass # TODO
 
     def __insertHighscore(self, i: int):
         self._Highscores[i].score = self._currentScore.score
