@@ -175,11 +175,11 @@ class Game:
         # C++ Code:
         # uint16_t textColor;
         # textColor = Display::getColor(2, 2, 0);
-        Display.Display.clearDisplay()
-        Display.Display.drawText("GAME", 4, 0, 63, 63, 0, 1)
-        Display.Display.drawText("OVER", 4, 8, 63, 63, 0, 1)
+        Display.clearDisplay()
+        Display.drawText("GAME", 4, 0, 63, 63, 0, 1)
+        Display.drawText("OVER", 4, 8, 63, 63, 0, 1)
 
-        Display.Display.refresh()
+        Display.refresh()
         pass
 
     def _timeStart(self):
@@ -187,23 +187,52 @@ class Game:
         pass
 
     def _timeCountUp(self):
-        # TODO Noch nicht klar, wo TIME_BASIS_MS in C++ deklariert wurde
         self._time += TIME_BASIS_MS
         pass
 
     def _displayNewHighscore(self):
-        Display.Display.clearDisplay()
-        Display.Display.drawText("NEW HS", 4, 0, 63, 63, 0, 1)
+        Display.clearDisplay()
+        Display.drawText("NEW HS", 4, 0, 63, 63, 0, 1)
 
-        Display.Display.refresh()
+        Display.refresh()
         # TODO Noch nicht implementiert
         # TODO C++ Code:
         # NumericDisplay::displayValue(1, this->currentScore.score);
-        NumericDisplay.NumericDisplay.displayValue(1, self._currentScore.score)
+        NumericDisplay.displayValue(1, self._currentScore.score)
         pass
 
     def _displayHighscores(self):
-        pass # TODO
+        for i in range(0, 3):
+            NumericDisplay.displayValue(i, self._Highscores[i].score)
+
+        # In C++ 3 Zeilen
+        # NumericDisplay.displayValue(0, self._Highscores[0].score)
+        # NumericDisplay.displayValue(1, self._Highscores[1].score)
+        # NumericDisplay.displayValue(2, self._Highscores[2].score)
+
+        # C++ Quellcode:
+        # uint16_t textColor = Display::getColor(2, 2, 0);
+
+        if self._joystickLeft.isUp() or self._joystickRight.isUp() \
+            or self._joystickLeft.isDown() or self._joystickRight.isDown():
+            self.__click_Count += 1
+
+        if self.__click_Count % 2 == 0:
+            index = 1
+        else:
+            index = 2
+
+        Display.clearDisplay()
+        Display.drawText(f"{index}.", 1, 0, 63, 63, 0, 1)
+        Display.drawText(self._Highscores[index - 1].name, 14, 0, 63, 63, 0, 1)
+        Display.drawText(f"{index + 1}.", 1, 9, 63, 63, 0, 1)
+        Display.drawText(self._Highscores[index].name, 14, 9, 63, 63, 0, 1)
+        Display.refresh()
+
+        # TODO C++ Quellcode:
+        # delay(100);
+        # Aus Arduino.h, genaue Funktionalität unklar
+        pass
     # TODO END Virtuelle Methoden
 
     def setState(self, newState: int):
@@ -228,4 +257,5 @@ class Game:
         pass # TODO
 
     def __insertHighscore(self, i: int):
-        pass # TODO
+        self._Highscores[i].score = self._currentScore.score
+        pass
