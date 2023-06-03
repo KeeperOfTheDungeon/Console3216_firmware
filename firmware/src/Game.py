@@ -195,9 +195,6 @@ class Game:
         Display.drawText("NEW HS", 4, 0, 63, 63, 0, 1)
 
         Display.refresh()
-        # TODO Noch nicht implementiert
-        # TODO C++ Code:
-        # NumericDisplay::displayValue(1, this->currentScore.score);
         NumericDisplay.displayValue(1, self._currentScore.score)
         pass
 
@@ -236,10 +233,11 @@ class Game:
     # TODO END Virtuelle Methoden
 
     def setState(self, newState: int):
-        pass # TODO
+        self._state = newState
+        pass
 
     def getState(self):
-        pass # TODO 
+        return self._state
 
     def _configMultiplayerGame(self):
         pass # TODO
