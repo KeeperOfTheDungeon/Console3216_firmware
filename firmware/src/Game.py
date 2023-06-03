@@ -243,7 +243,26 @@ class Game:
         pass # TODO
 
     def _configurePlayer(self, playerNr: int, joystick: Joystick, playerType: int) -> int:
-        pass # TODO
+        # C++ Quellcode:
+        # char tmpString[3];
+        tmpString = [""] * 3
+
+        if playerType == PLAYER_TYPE_HUMAN:
+            Display.drawText("P", playerNr * 19, 8, 63, 63, 0, 1)
+        else:
+            tmpString[0] = 'C'
+            tmpString[1] = chr(playerType + 48)
+            tmpString[2] = 0
+
+            Display.drawText(tmpString, playerNr * 19, 8, 63, 63, 0, 1)
+        
+        if joystick.isLeft() and playerType > 0:
+            return playerType - 1
+        
+        if joystick.isLeft() and playerType < (PLAYER_TYPE_AI_9 - 1):
+            return playerType + 1
+        
+        return playerType
 
     def __submitHighscore(self):
         for i in range(0, 3):
