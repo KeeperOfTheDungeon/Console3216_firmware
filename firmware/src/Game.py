@@ -248,7 +248,13 @@ class Game:
         pass # TODO
 
     def __submitHighscore(self):
-        pass # TODO
+        for i in range(0, 3):
+            if self._currentScore.score > self._Highscores[i].score:
+                self.__insertHighscore(i)
+                self.__isHighscore = i
+                return
+        self.__isHighscore = -1
+        pass
 
     def __enterName(self, s: Score_t):
         pass # TODO
