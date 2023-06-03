@@ -257,7 +257,41 @@ class Game:
         pass
 
     def __enterName(self, s: Score_t):
-        pass # TODO
+        # TODO s in C++ ein Pointer, wird innerhalb dieser Funktion geändert
+        # Wird in Pythonals Referenz übergeben und ändert
+        # sich deshalb auch ausßerhalb der Funktion
+        # TODO Direkte Änderung eines Zeichens in Python nicht möglich
+        # Diese Umweg-Lösung muss getestet werden
+        if ord(s.name[self.__click_Count]) < ord('A'):
+            s.name = s.name[0:self.__click_Count] + 'A' + s.name[self.__click_Count + 1:]
+        if ord(s.name[self.__click_Count]) > ord('Z'):
+            s.name = s.name[0:self.__click_Count] + 'Z' + s.name[self.__click_Count + 1:]
+        
+        if (self._joystickLeft.isButtonTop() or self._joystickRight.isButtonTop()):
+            # C++ Quellcode:
+            # s->name[click_Count]++;
+            # s->name[click_Count] = (s->name[click_Count] - 'A') % 26 + 'A';
+            char = chr((ord(s.name[self.__click_Count]) + 1 - ord('A')) % 26 + ord('A'))
+            s.name = s.name[0:self.__click_Count] + char + s.name[self.__click_Count + 1:]
+        elif self._joystickLeft.isDown() or self._joystickRight.isDown():
+            # C++ Quellcode:
+            # s->name[click_Count]--;
+            # if (s->name[click_Count] < 'A') { s->name[click_Count] = 'Z'; }
+            # s->name[click_Count] = (s->name[click_Count] - 'A') % 26 + 'A';
+            if ord(s.name[self.__click_Count - 1]) < ord('A'):
+                char = 'Z'
+            else:
+                char = chr((ord(s.name[self.__click_Count]) - 1) - ord('A') % 26 + ord('A'))
+            s.name = s.name[0:self.__click_Count] + char + s.name[self.__click_Count + 1:]
+        
+        Display.clearDisplay()
+        Display.drawText(s.name, 7, 4, 63, 63, 0, 1)
+        Display.refresh()
+        
+        # TODO C++ Quellcode:
+        # delay(100);
+        # Aus Arduino.h, genaue Funktionalität unklar
+        pass
 
     def __enterNameWithLoops(self, s: Score_t):
         pass # TODO
