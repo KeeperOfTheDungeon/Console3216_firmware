@@ -79,17 +79,35 @@ class Joystick:
         pass
 
     def isLeft(self) -> bool:
-        pass
+        if GPIO.input(self.__pins.left) == GPIO.LOW:
+            return True
+        
+        return False
     def isUp(self) -> bool:
-        pass
+        if GPIO.input(self.__pins.up) == GPIO.LOW:
+            return True
+        
+        return False
     def isRight(self) -> bool:
-        pass
+        if GPIO.input(self.__pins.right) == GPIO.LOW:
+            return True
+        
+        return False
     def isDown(self) -> bool:
-        pass
+        if GPIO.input(self.__pins.down) == GPIO.LOW:
+            return True
+        
+        return False
     def isButtonTop(self) -> bool:
-        pass
+        if GPIO.input(self.__pins.buttonTop) == GPIO.LOW:
+            return True
+        
+        return False
     def isButtonBody(self) -> bool:
-        pass
+        if GPIO.input(self.__pins.buttonBody) == GPIO.LOW:
+            return True
+        
+        return False
 
     def process(self):
         # C++ Quellcode:
