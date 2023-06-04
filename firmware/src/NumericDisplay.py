@@ -31,7 +31,36 @@ class NumericDisplay:
 
     @classmethod
     def displayTime(cls, display: int, seconds: int):
-        pass
+        minutes: int
+        # TODO In C++ ein Pointer:
+        # SevenSegmentDisplay * actualDisplay;
+        actualDisplay: SevenSegmentDisplay
+
+        minutes = seconds / 60
+        seconds = seconds % 60
+
+        if display == DISPLAY_LEFT:
+            # TODO in C++ wird Speicheradresse übergeben:
+            # actualDisplay = & NumericDisplay::leftDisplay;
+            actualDisplay = cls._leftDisplay
+        elif display == DISPLAY_MIDDLE:
+            # TODO in C++ wird Speicheradresse übergeben:
+            # actualDisplay = & NumericDisplay::middleDisplay;
+            actualDisplay = cls._middleDisplay
+        elif display == DISPLAY_RIGHT:
+            # TODO in C++ wird Speicheradresse übergeben:
+            # actualDisplay = & NumericDisplay::rightDisplay;
+            actualDisplay = cls._rightDisplay
+        else:
+            return
+        
+        actualDisplay.setNumber(minutes * 100 + seconds)
+
+        if seconds & 1:
+            actualDisplay.setColon()
+        else:
+            actualDisplay.clearColon()
+
     @classmethod
     def displayValue(cls, display: int, value: int):
         pass
