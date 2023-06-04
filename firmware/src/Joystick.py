@@ -19,12 +19,12 @@ JOYSTICK_SWITCHES_COUNT = (JOYSTICK_SWITCH_BUTTON_BODY + 1)
 
 class JoystickPins_t:
     def __init__(self) -> None:
-        left: int
-        up: int
-        right: int
-        down: int
-        buttonTop: int
-        buttonBody: int
+        self.left: int
+        self.up: int
+        self.right: int
+        self.down: int
+        self.buttonTop: int
+        self.buttonBody: int
 
 
 class JoystickEdge_t:
@@ -38,12 +38,12 @@ class JoystickEdge_t:
         # 	uint16_t buttonTop:2;
         # 	uint16_t buttonBody:2;
         # } JoystickEdge_t;
-        left: int
-        up: int
-        right: int
-        down: int
-        buttonTop: int
-        buttonBody: int
+        self.left: int
+        self.up: int
+        self.right: int
+        self.down: int
+        self.buttonTop: int
+        self.buttonBody: int
 
 
 class Joystick:
@@ -111,6 +111,31 @@ class Joystick:
             return False
 
     def getControlStatus(self, switchId: int) -> int:
-        pass
+        if switchId == JOYSTICK_SWITCH_LEFT:
+            return self.__edges.left
+        elif switchId == JOYSTICK_SWITCH_RIGHT:
+            return self.__edges.right
+        elif switchId == JOYSTICK_SWITCH_UP:
+            return self.__edges.up
+        elif switchId == JOYSTICK_SWITCH_DOWN:
+            return self.__edges.down
+        elif switchId == JOYSTICK_SWITCH_BUTTON_TOP:
+            return self.__edges.buttonTop
+        elif switchId == JOYSTICK_SWITCH_BUTTON_BODY:
+            return self.__edges.buttonBody
+        else:
+            return JOYSTICK_STATUS_NOT_PRESSED
     def setControlStatus(self, switchId: int, status: int):
+        if switchId == JOYSTICK_SWITCH_LEFT:
+            self.__edges.left = status
+        elif switchId == JOYSTICK_SWITCH_RIGHT:
+            self.__edges.right = status
+        elif switchId == JOYSTICK_SWITCH_UP:
+            self.__edges.up = status
+        elif switchId == JOYSTICK_SWITCH_DOWN:
+            self.__edges.down = status
+        elif switchId == JOYSTICK_SWITCH_BUTTON_TOP:
+            self.__edges.buttonTop = status
+        elif switchId == JOYSTICK_SWITCH_BUTTON_BODY:
+            self.__edges.buttonBody = status
         pass
