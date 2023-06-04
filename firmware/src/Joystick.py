@@ -95,7 +95,20 @@ class Joystick:
         pass
 
     def getSwitchStatus(self, switchId: int) -> bool:
-        pass
+        if switchId == JOYSTICK_SWITCH_LEFT:
+            return self.isLeft()
+        elif switchId == JOYSTICK_SWITCH_RIGHT:
+            return self.isRight()
+        elif switchId == JOYSTICK_SWITCH_UP:
+            return self.isUp()
+        elif switchId == JOYSTICK_SWITCH_DOWN:
+            return self.isDown()
+        elif switchId == JOYSTICK_SWITCH_BUTTON_TOP:
+            return self.isButtonTop()
+        elif switchId == JOYSTICK_SWITCH_BUTTON_BODY:
+            return self.isButtonBody()
+        else:
+            return False
 
     def getControlStatus(self, switchId: int) -> int:
         pass
