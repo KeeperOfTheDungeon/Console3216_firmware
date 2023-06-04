@@ -11,11 +11,23 @@ class NumericDisplay:
     _rightDisplay: SevenSegmentDisplay
 
     def __init__(self) -> None:
-        pass
+        # TODO C++ Quellcode:
+        # Wire.setClock(400000L);
+        # Aus Arduino Wire.h
+
+        self._leftDisplay.init(0x70)
+        self._leftDisplay.init(0x71)
+        self._leftDisplay.init(0x72)
 
     @classmethod
     def test(cls):
-        pass
+        cls._leftDisplay.init(0x72)
+        cls._middleDisplay.init(0x71)
+        cls._rightDisplay.init(0x70)
+
+        cls._leftDisplay.setNumber(190)
+        cls._middleDisplay.setNumber(191)
+        cls._rightDisplay.setNumber(192)
 
     @classmethod
     def displayTime(cls, display: int, seconds: int):
