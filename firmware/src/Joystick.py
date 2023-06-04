@@ -1,3 +1,8 @@
+
+import RPi.GPIO as GPIO
+
+from Microcontroller import *
+
 JOYSTICK_STATUS_NOT_PRESSED = 0
 JOYSTICK_STATUS_PRESSED = 1
 JOYSTICK_STATUS_HOLD = 2
@@ -43,15 +48,34 @@ class JoystickEdge_t:
 
 class Joystick:
     def __init__(self) -> None:
-        __pins: JoystickPins_t
-        __edges: JoystickEdge_t
+        self.__pins: JoystickPins_t
+        self.__edges: JoystickEdge_t
 
-        __value: int
+        self.__value: int
     
     # TODO Parameter pins ein Pointer
     # C++:
     # void init(JoystickPins_t * pins);
     def init(self, pins: JoystickPins_t):
+        self.__pins = pins
+
+        # BCM Pinmodus verwenden
+        GPIO.setmode(GPIO.BCM)
+
+        # TODO C++ Quellcode:
+        # pinMode(this->pins.left, INPUT_PULLUP);
+        # pinMode(this->pins.up, INPUT_PULLUP);
+        # pinMode(this->pins.right, INPUT_PULLUP);
+        # pinMode(this->pins.down, INPUT_PULLUP);
+        # pinMode(this->pins.buttonTop, INPUT_PULLUP);
+        # pinMode(this->pins.buttonBody, INPUT_PULLUP);
+
+        GPIO.setup(self.__pins.left, GPIO.IN)
+        GPIO.setup(self.__pins.up, GPIO.IN)
+        GPIO.setup(self.__pins.right, GPIO.IN)
+        GPIO.setup(self.__pins.down, GPIO.IN)
+        GPIO.setup(self.__pins.buttonTop, GPIO.IN)
+        GPIO.setup(self.__pins.buttonBody, GPIO.IN)
         pass
 
     def isLeft(self) -> bool:
