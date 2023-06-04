@@ -76,7 +76,13 @@ class MainClock:
 
     @classmethod
     def getSystemTime(cls) -> int:
-        pass
+        return MainClock.__systemTime * TIME_BASIS_MS
+
+# TODO C++ Quellcode:
+# ISR(TIMER3_OVF_vect) 
+# {
+# 		mainClock->setTick();
+# }
 
 # TODO Im C++ Quellcode ein pointer:
 # MainClock * mainClock;
