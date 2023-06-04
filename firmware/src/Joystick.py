@@ -109,6 +109,17 @@ class Joystick:
             return self.isButtonBody()
         else:
             return False
+    def checkEdge(self, edge: int):
+        status: int = self.getControlStatus(edge)
+
+        if self.getSwitchStatus(edge):
+            if status == JOYSTICK_STATUS_NOT_PRESSED:
+                self.setControlStatus(edge, JOYSTICK_STATUS_PRESSED)
+            elif status == JOYSTICK_STATUS_PRESSED:
+                self.setControlStatus(edge, JOYSTICK_STATUS_HOLD)
+        else:
+            self.setControlStatus(edge, JOYSTICK_STATUS_NOT_PRESSED)
+        pass
 
     def getControlStatus(self, switchId: int) -> int:
         if switchId == JOYSTICK_SWITCH_LEFT:
