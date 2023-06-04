@@ -52,6 +52,11 @@ class MainClock:
         pass
 
     def setTick(self):
+        if self.__status.systemTick != 0:
+            self.__status.systemTickOverflow = 1
+        
+        self.__status.systemTick = 1
+        MainClock.__systemTime += 1
         pass
     def isTick(self) -> bool:
         pass
