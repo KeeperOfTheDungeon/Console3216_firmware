@@ -59,10 +59,19 @@ class MainClock:
         MainClock.__systemTime += 1
         pass
     def isTick(self) -> bool:
-        pass
+        if self.__status.systemTick == 1:
+            self.__status.systemTick = 0
+            return True
+        
+        return False
     def hasOverflow(self) -> bool:
-        pass
+        if self.__status.systemTickOverflow == 1:
+            self.clearOverflow()
+            return True
+        
+        return False
     def clearOverflow(self):
+        self.__status.systemTickOverflow = 0
         pass
 
     @classmethod
