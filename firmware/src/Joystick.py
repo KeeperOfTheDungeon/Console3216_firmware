@@ -92,6 +92,14 @@ class Joystick:
         pass
 
     def process(self):
+        # C++ Quellcode:
+        # uint8_t actualSwitch;
+        # for (actualSwitch = 0; actualSwitch < JOYSTICK_SWITCHES_COUNT; actualSwitch++) 
+        # {
+        # 	this->checkEdge(actualSwitch);
+        # }
+        for actualSwitch in range(0, JOYSTICK_SWITCHES_COUNT):
+            self.checkEdge(actualSwitch)
         pass
 
     def getSwitchStatus(self, switchId: int) -> bool:
