@@ -63,4 +63,23 @@ class NumericDisplay:
 
     @classmethod
     def displayValue(cls, display: int, value: int):
-        pass
+        # TODO In C++ ein Pointer:
+        # SevenSegmentDisplay * actualDisplay;
+        actualDisplay: SevenSegmentDisplay
+
+        if display == DISPLAY_LEFT:
+            # TODO in C++ wird Speicheradresse übergeben:
+            # actualDisplay = & NumericDisplay::leftDisplay;
+            actualDisplay = cls._leftDisplay
+        elif display == DISPLAY_MIDDLE:
+            # TODO in C++ wird Speicheradresse übergeben:
+            # actualDisplay = & NumericDisplay::middleDisplay;
+            actualDisplay = cls._middleDisplay
+        elif display == DISPLAY_RIGHT:
+            # TODO in C++ wird Speicheradresse übergeben:
+            # actualDisplay = & NumericDisplay::rightDisplay;
+            actualDisplay = cls._rightDisplay
+        else:
+            return
+        
+        actualDisplay.setNumber(value)
