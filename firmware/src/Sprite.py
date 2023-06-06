@@ -63,4 +63,11 @@ class Sprite:
         pass
 
     def mirrorY(self):
+        for y in range(0, self._xExtend / 2):
+            for x in range(0, self._yExtend):
+                leftPixel = self._bitmap[y * self._yExtend + x]
+                rightPixel = self._bitmap[(self._xExtend - 1) * self._yExtend + x]
+
+                self._bitmap[y * self._yExtend + x] = rightPixel
+                self._bitmap[(self._xExtend - 1) * self._yExtend + x] = leftPixel
         pass
