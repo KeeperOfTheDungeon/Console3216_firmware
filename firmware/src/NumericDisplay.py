@@ -15,6 +15,8 @@ class NumericDisplay:
         # Wire.setClock(400000L);
         # Aus Arduino Wire.h
 
+        # TODO War so im original C++ Quellcode, 3x leftDisplay.init()
+        # Eventuell ein Bug und die anderen müssen auch initialisiert werden
         self._leftDisplay.init(0x70)
         self._leftDisplay.init(0x71)
         self._leftDisplay.init(0x72)
