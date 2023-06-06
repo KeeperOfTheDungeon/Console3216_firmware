@@ -181,4 +181,21 @@ class Sound:
 
     @classmethod
     def step(cls):
+        for i in range(CHANNEL_1, CHANNEL_3 + 1):
+            if cls.__alarmSound[i] == cls.__steps:
+                cls.__alarmSound[i] = 0
+                cls.stopSound(cls.__sound[i], i)
+                # TODO C++ Quellcode:
+                # Serial.println("Sound gestoppt");
+        
+        for i in range(0, SOUNDEFFECTS_LENGTH):
+            if cls.__alarmSoundEffect[i] == cls.__steps:
+                cls.__alarmSoundEffect[i] = 0
+                cls.stopSoundEffect(cls.__soundEffects[i])
+                # TODO C++ Quellcode:
+                # Serial.println("Soundeffekt gestoppt");
+
+        cls.__steps += 1
+        # TODO C++ Quellcode:
+        # Serial.println("steps++");
         pass
