@@ -28,6 +28,8 @@ SEVEN_SEGMENT_SEGMENT_2_POS = 2
 SEVEN_SEGMENT_SEGMENT_3_POS = 0
 SEVEN_SEGMENT_DOT_MASK = (1<<7)
 
+SEVEN_SEG_COLON_MASK = 0x2 
+
 # TODO C++ Klassendeklaration:
 # class SevenSegmentDisplay	: public Ht16k33 { ... };
 class SevenSegmentDisplay(Ht16k33):
@@ -98,10 +100,45 @@ class SevenSegmentDisplay(Ht16k33):
         pass
 
     def setColon(self):
+        self._dataBuffer[4] = SEVEN_SEG_COLON_MASK
         pass
+
     def clearColon(self):
+        self._dataBuffer[4] = 0
         pass
+
     def toggleColon(self):
+        # TODO:
+        # Muss getestet werden, ob bitwise-Operationen sich in Python
+        # genau so wie in C++ verhalten.
+
+        # Kurze tests in beiden Sprachen lieferten die gleichen Ergebnisse
+        self._dataBuffer[4] ^= SEVEN_SEG_COLON_MASK
         pass
+
     def setNumber(self, value: int):
+        # TODO C++ Quellcode:
+        # uint16_t bcdValue =  0;
+        # Muss getestet werden, ob sich die shift-Operationen bei 16 bit C++ ints
+        # anders verhalten, als bei Python ints
+        bcdValue: int = 0
+
+        for index in range(13, -1, -1):
+            if (bcdValue & 0xF) >= 5:
+                bcdValue += 3
+            
+            if (bcdValue & 0xF0) >= (5 << 4):
+                bcdValue += (3 << 4)
+
+            if (bcdValue & 0xF00) >= (5 << 8):
+                bcdValue += (3 << 8)
+            
+            bcdValue = (bcdValue << 1) | ((value >> index) & 1)
+        
+        self._dataBuffer[SEVEN_SEGMENT_SEGMENT_0_POS] = numbertable[bcdValue & 0xF]
+        self._dataBuffer[SEVEN_SEGMENT_SEGMENT_1_POS] = numbertable[(bcdValue & 0xF0) >> 4]
+        self._dataBuffer[SEVEN_SEGMENT_SEGMENT_2_POS] = numbertable[(bcdValue & 0xF00) >> 8]
+        self._dataBuffer[SEVEN_SEGMENT_SEGMENT_3_POS] = numbertable[(bcdValue & 0xF000) >> 12]
+
+        self.refresh()
         pass
