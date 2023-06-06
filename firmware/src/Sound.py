@@ -1,10 +1,17 @@
 
+from Midi import *
+
 CHANNEL_1 = 0
 CHANNEL_2 = 1
 CHANNEL_3 = 2
 CHANNEL_DRUM = 9
 
 SOUNDEFFECTS_LENGTH = 3
+
+CONTROL_CHANNEL_VOLUME = 7
+CONTROL_CHANNEL_BALANCE = 10
+
+CONTROL_CHANNEL_VELOCITY = 64
 
 class Sound:
     # Kommentare aus dem C++ Quellcode herauskopiert:
@@ -22,12 +29,23 @@ class Sound:
     # BSP: [Neuester][Mittlerer][Aeltester]
     __soundEffects = [0] * SOUNDEFFECTS_LENGTH
 
+    # Private Funktion, um die zeitliche Hierarchie im SoundEffect-Array
+    # zu erhalten und um einen SoundEffect nach dem Stoppen aus dem Array zu loeschen
     @classmethod
-    def __sortSoundEffects(idx: int):
+    def __sortSoundEffects(cls, idx: int):
+        for i in range(idx, SOUNDEFFECTS_LENGTH):
+            cls.__soundEffects[i] = cls.__soundEffects[i + 1]
+            cls.__alarmSoundEffect[i] = cls.__soundEffects[i + 1]
+        
+        # letzte Stelle im Array "freiraeumen"
+        cls.__soundEffects[SOUNDEFFECTS_LENGTH - 1] = 0
+        cls.__alarmSoundEffect[SOUNDEFFECTS_LENGTH - 1] = 0
         pass
 
     @classmethod
     def init(cls):
+        Midi.init()
+        cls.__steps = 1
         pass
 
     @classmethod
