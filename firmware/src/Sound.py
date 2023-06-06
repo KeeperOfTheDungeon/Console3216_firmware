@@ -130,9 +130,23 @@ class Sound:
 
     @classmethod
     def playSoundEffect(cls, soundEffect: int):
+        cls.playSoundEffectDura(soundEffect, 0)
         pass
     @classmethod
     def playSoundEffectDura(cls, soundEffect: int, duration: int):
+        # Duplikate filtern
+        for i in range(0, SOUNDEFFECTS_LENGTH):
+            if cls.__soundEffects[i] == soundEffect:
+                return
+        Midi.noteOn(CHANNEL_DRUM, soundEffect, CONTROL_CHANNEL_VELOCITY)
+
+        # Verschiebung der Sound Effekte und deren Alarmzeiten
+        for i in range(SOUNDEFFECTS_LENGTH - 1, 0, -1):
+            cls.__soundEffects[i] = cls.__soundEffects[i - 1]
+            cls.__alarmSoundEffect[i] = cls.__alarmSoundEffect[i - 1]
+        
+        cls.__soundEffects[0] = soundEffect
+        cls.__alarmSoundEffect[0] = duration
         pass
 
     @classmethod
