@@ -22,17 +22,81 @@ numbertable = [
     0x71,  # F
 ]
 
+SEVEN_SEGMENT_SEGMENT_0_POS = 8
+SEVEN_SEGMENT_SEGMENT_1_POS = 6
+SEVEN_SEGMENT_SEGMENT_2_POS = 2
+SEVEN_SEGMENT_SEGMENT_3_POS = 0
+SEVEN_SEGMENT_DOT_MASK = (1<<7)
+
 # TODO C++ Klassendeklaration:
 # class SevenSegmentDisplay	: public Ht16k33 { ... };
 class SevenSegmentDisplay(Ht16k33):
+
     def setNumberAt(self, number: int, position: int):
+        if position == 0:
+            self._dataBuffer[SEVEN_SEGMENT_SEGMENT_0_POS] = numbertable[number]
+        elif position == 1:
+            self._dataBuffer[SEVEN_SEGMENT_SEGMENT_1_POS] = numbertable[number]
+        elif position == 2:
+            self._dataBuffer[SEVEN_SEGMENT_SEGMENT_2_POS] = numbertable[number]
+        elif position == 3:
+            self._dataBuffer[SEVEN_SEGMENT_SEGMENT_3_POS] = numbertable[number]
+
         pass
+
     def setSegmentsAt(self, segments: int, position: int):
+        if position == 0:
+            self._dataBuffer[SEVEN_SEGMENT_SEGMENT_0_POS] = segments
+        elif position == 1:
+            self._dataBuffer[SEVEN_SEGMENT_SEGMENT_1_POS] = segments
+        elif position == 2:
+            self._dataBuffer[SEVEN_SEGMENT_SEGMENT_2_POS] = segments
+        elif position == 3:
+            self._dataBuffer[SEVEN_SEGMENT_SEGMENT_3_POS] = segments
         pass
+
     def clearDotAt(self, number: int, position: int):
+        # TODO:
+        # Muss getestet werden, ob bitwise-Operationen sich in Python
+        # genau so wie in C++ verhalten.
+
+        # dataBuffer in C++:
+        # uint8_t dataBuffer[HT16K33_DISPLAY_SIZE];
+        # SEVEN_SEGNMENT_DOT_MASK in C++:
+        # #define SEVEN_SEGMENT_DOT_MASK (1<<7)
+        if position == 0:
+            self._dataBuffer[SEVEN_SEGMENT_SEGMENT_0_POS] &= ~SEVEN_SEGMENT_DOT_MASK
+        elif position == 1:
+            self._dataBuffer[SEVEN_SEGMENT_SEGMENT_1_POS] &= ~SEVEN_SEGMENT_DOT_MASK
+        elif position == 2:
+            self._dataBuffer[SEVEN_SEGMENT_SEGMENT_2_POS] &= ~SEVEN_SEGMENT_DOT_MASK
+        elif position == 3:
+            self._dataBuffer[SEVEN_SEGMENT_SEGMENT_3_POS] &= ~SEVEN_SEGMENT_DOT_MASK
+        
+        # TODO Parameter number wird in C++ auch nicht verwendet.
         pass
+
     def setDotAt(self, number: int, position: int):
+        # TODO:
+        # Muss getestet werden, ob bitwise-Operationen sich in Python
+        # genau so wie in C++ verhalten.
+
+        # dataBuffer in C++:
+        # uint8_t dataBuffer[HT16K33_DISPLAY_SIZE];
+        # SEVEN_SEGNMENT_DOT_MASK in C++:
+        # #define SEVEN_SEGMENT_DOT_MASK (1<<7)
+        if position == 0:
+            self._dataBuffer[SEVEN_SEGMENT_SEGMENT_0_POS] |= SEVEN_SEGMENT_DOT_MASK
+        elif position == 1:
+            self._dataBuffer[SEVEN_SEGMENT_SEGMENT_1_POS] |= SEVEN_SEGMENT_DOT_MASK
+        elif position == 2:
+            self._dataBuffer[SEVEN_SEGMENT_SEGMENT_2_POS] |= SEVEN_SEGMENT_DOT_MASK
+        elif position == 3:
+            self._dataBuffer[SEVEN_SEGMENT_SEGMENT_3_POS] |= SEVEN_SEGMENT_DOT_MASK
+        
+        # TODO Parameter number wird in C++ auch nicht verwendet.
         pass
+
     def setColon(self):
         pass
     def clearColon(self):
