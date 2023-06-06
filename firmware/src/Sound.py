@@ -54,9 +54,21 @@ class Sound:
 
     @classmethod
     def setPreset(cls, index: int):
+        if index > 127:
+            return
+        
+        Midi.programChange(CHANNEL_1, index)
+        Midi.programChange(CHANNEL_2, index)
+        Midi.programChange(CHANNEL_3, index)
         pass
+
+    # TODO In C++ setPreset() überladen
     @classmethod
     def setPresetCh(cls, index: int, channel: int):
+        if index > 127:
+            return
+        
+        Midi.programChange(channel, index)
         pass
 
     @classmethod
