@@ -73,9 +73,16 @@ class Sound:
 
     @classmethod
     def setVolume(cls, volume: int):
+        cls.setVolumeCh(volume, CHANNEL_1)
+        cls.setVolumeCh(volume, CHANNEL_2)
+        cls.setVolumeCh(volume, CHANNEL_3)
+        cls.setVolumeCh(volume, CHANNEL_DRUM)
         pass
+
+    # TODO In C++ setVolume() überladen
     @classmethod
     def setVolumeCh(cls, volume: int, channel: int):
+        Midi.controlChange(channel, CONTROL_CHANNEL_VOLUME, volume)
         pass
 
     @classmethod
