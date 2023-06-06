@@ -154,9 +154,29 @@ class Sound:
 
     @classmethod
     def stopSoundEffect(cls, soundEffect: int):
+        idx = 255
+
+        # Index herausfinden
+        for i in range(0, SOUNDEFFECTS_LENGTH):
+            if cls.__soundEffects[i] == soundEffect:
+                idx = i
+                break
+        
+        if idx == 255:
+            return
+        
+        Midi.noteOff(CHANNEL_DRUM, soundEffect)
+
+        # Dies sorgt dafür, dass ein SoundEffect geloescht werden kann
+        cls.__sortSoundEffects(idx)
         pass
     @classmethod
     def stopSoundEffects(cls):
+        for i in range(0, SOUNDEFFECTS_LENGTH):
+            if cls.__soundEffects[i] != 0:
+                Midi.noteOff(CHANNEL_DRUM, cls.__soundEffects[i])
+                cls.__soundEffects[i] = 0
+                cls.__alarmSoundEffect[i] = 0
         pass
 
     @classmethod
