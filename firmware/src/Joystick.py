@@ -70,12 +70,12 @@ class Joystick:
         # pinMode(this->pins.buttonTop, INPUT_PULLUP);
         # pinMode(this->pins.buttonBody, INPUT_PULLUP);
 
-        GPIO.setup(self.__pins.left, GPIO.IN)
-        GPIO.setup(self.__pins.up, GPIO.IN)
-        GPIO.setup(self.__pins.right, GPIO.IN)
-        GPIO.setup(self.__pins.down, GPIO.IN)
-        GPIO.setup(self.__pins.buttonTop, GPIO.IN)
-        GPIO.setup(self.__pins.buttonBody, GPIO.IN)
+        GPIO.setup(self.__pins.left, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        GPIO.setup(self.__pins.up, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        GPIO.setup(self.__pins.right, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        GPIO.setup(self.__pins.down, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        GPIO.setup(self.__pins.buttonTop, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        GPIO.setup(self.__pins.buttonBody, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         pass
 
     def isLeft(self) -> bool:
