@@ -24,16 +24,24 @@ class Sprite:
         pass
 
     def getXPos(self) -> int:
-        pass
+        return self._xPos
+
     def getYPos(self) -> int:
-        pass
+        return self._yPos
+
     def isActive(self) -> bool:
-        pass
+        return self._active
+
     def activate(self):
+        self._active = True
         pass
+
     def deActivate(self):
+        self._active = False
         pass
+
     def draw(self):
         pass
+
     def mirrorY(self):
         pass
