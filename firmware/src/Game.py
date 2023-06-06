@@ -109,11 +109,11 @@ class Game:
 
     # TODO BEGIN Virtuelle Methoden:
     def process(self):
+        # In C++ ein Switch/Case
         if self._state == GAME_STATE_PREPARE_DEMO:
             self._prepareDemo()
             self._state = GAME_STATE_PLAY_DEMO
         elif self._state == GAME_STATE_PLAY_DEMO:
-            # TODO Noch nicht implementiert
             if StartButton.getStatus() == START_BUTTON_PRESSED:
                 self._state = GAME_STATE_CONFIG
         elif self._state == GAME_STATE_CONFIG:

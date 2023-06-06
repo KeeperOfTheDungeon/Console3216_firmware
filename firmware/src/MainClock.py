@@ -26,6 +26,7 @@ class MainClock:
         # cli();
         # Aus "Arduino.h", "avr/interrupt.h" oder "avr/io.h"
 
+        global mainClock
         mainClock = self
 
         # TODO C++ Quellcode:

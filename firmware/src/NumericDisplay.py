@@ -33,7 +33,6 @@ class NumericDisplay:
 
     @classmethod
     def displayTime(cls, display: int, seconds: int):
-        minutes: int
         # TODO In C++ ein Pointer:
         # SevenSegmentDisplay * actualDisplay;
         actualDisplay: SevenSegmentDisplay

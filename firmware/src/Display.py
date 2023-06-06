@@ -75,7 +75,7 @@ class Display:
         # Schriftarten werden manuell in ein Array eingetragen
         # Vorteil: Reihenfolge kann direkt festgelegt werden
         # Nachteil: Hardcoded und muss im Code angepasst werden,
-        # wenn nötog.
+        # wenn nötig.
         for font in FONT_LIST:
             cls.fonts.append(graphics.Font())
             cls.fonts[-1].LoadFont(os.path.join(font_path, font))
@@ -95,12 +95,12 @@ class Display:
 
     @classmethod
     def refresh(cls):
-        Display.matrix.SwapOnVSync()
+        cls.matrix.SwapOnVSync()
 
     @classmethod
     def drawPixel(cls, x: int, y: int, r: int, g: int, b: int):
         if ((x < DISPLAY_X_EXTEND) and (y < DISPLAY_Y_EXTEND)):
-            Display.matrix.SetPixel(x, y, r, g, b)
+            cls.matrix.SetPixel(x, y, r, g, b)
 
     # TODO Auskommentierte Zeile
     # C++: static void drawRect(int16_t x, int16_t y,

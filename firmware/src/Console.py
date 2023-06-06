@@ -2,14 +2,13 @@
 import random
 
 from Microcontroller import *
-from Joystick import *
-from StartButton import *
-from RgbLed import *
-from Display import *
-from MainClock import *
-from Game import *
 from CoinDetection import *
-
+from Display import *
+from Game import *
+from Joystick import *
+from MainClock import *
+from RgbLed import *
+from StartButton import *
 
 CONSOLE_STATE_COIN = 0
 CONSOLE_STATE_DEMO = 1
@@ -65,7 +64,6 @@ class Console:
         # Ursprungscode hatte einen Tippfehler im Namen:
         # C++: JoystickPins_t joyctickPins;
         joystickPins: JoystickPins_t
-
 
         joystickPins.left = PIN_JOYSTICK_LEFT_LEFT
         joystickPins.up = PIN_JOYSTICK_LEFT_UP
@@ -156,7 +154,6 @@ class Console:
             self._state = CONSOLE_STATE_GAME
 
     def displayCoinAnimation(self):
-        coinXPos: int
         self._coinMovementDelay += 1
 
         if (self._coinMovementDelay < COIN_MOVEMENT_DELAY):
