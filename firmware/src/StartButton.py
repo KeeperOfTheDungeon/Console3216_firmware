@@ -1,4 +1,5 @@
 
+import RPi.GPIO as GPIO
 from Microcontroller import *
 
 START_BUTTON_IDLE = 0
@@ -9,16 +10,33 @@ class StartButton:
     _status: int
     
     def __init__(self) -> None:
+        StartButton._status = START_BUTTON_IDLE
         pass
     
     @classmethod
-    def init():
+    def init(cls):
+        # TODO C++ Quellcode:
+        # pinMode(PIN_START_BUTTON, INPUT_PULLUP);
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setup(PIN_START_BUTTON, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         pass
 
     @classmethod
-    def isPressed() -> bool:
-        pass
+    def isPressed(cls) -> bool:
+        # TODO C++ Quellcode:
+        # if (digitalRead(PIN_START_BUTTON) == LOW)
+        if GPIO.input(PIN_START_BUTTON) == GPIO.LOW:
+            return True
+        return False
 
     @classmethod
-    def getStatus() -> int:
-        pass
+    def getStatus(cls) -> int:
+        pressed = cls.isPressed()
+
+        if cls._status == START_BUTTON_IDLE and pressed:
+            cls._status = START_BUTTON_PRESSED
+        elif cls._status == START_BUTTON_PRESSED and pressed:
+            cls._status = START_BUTTON_HOLD
+        elif not pressed:
+            cls._status = START_BUTTON_IDLE
+        return cls._status
