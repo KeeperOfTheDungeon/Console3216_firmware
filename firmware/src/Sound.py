@@ -103,9 +103,18 @@ class Sound:
 
     @classmethod
     def playSound(cls, note: int, channel: int):
+        Midi.noteOff(channel, cls.__sound[channel])
+        Midi.noteOn(channel, note, CONTROL_CHANNEL_VELOCITY)
+        cls.__sound[channel] = note
         pass
+
+    # TODO In C++ playSound() überladen
     @classmethod
     def playSoundDura(cls, note: int, channel: int, duration: int):
+        Midi.noteOff(channel, cls.__sound[channel])
+        cls.playSound(note, channel)
+        cls.__alarmSound[channel] = cls.__steps + duration
+        cls.__sound[channel] = note
         pass
 
     @classmethod
