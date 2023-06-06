@@ -87,9 +87,18 @@ class Sound:
 
     @classmethod
     def setPanorama(cls, panorama: int):
+        cls.setPanoramaCh(panorama, CHANNEL_1)
+        cls.setPanoramaCh(panorama, CHANNEL_2)
+        cls.setPanoramaCh(panorama, CHANNEL_3)
         pass
+
+    # TODO In C++ setPanorama() überladen
     @classmethod
     def setPanoramaCh(cls, panorama: int, channel: int):
+        if (channel > 2):
+            return
+        
+        Midi.controlChange(channel, CONTROL_CHANNEL_BALANCE, panorama)
         pass
 
     @classmethod
