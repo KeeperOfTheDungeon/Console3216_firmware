@@ -132,7 +132,10 @@ class Sound:
     def playSoundEffect(cls, soundEffect: int):
         cls.playSoundEffectDura(soundEffect, 0)
         pass
+
     @classmethod
+    
+    # TODO In C++ playSoundEffect() überladen
     def playSoundEffectDura(cls, soundEffect: int, duration: int):
         # Duplikate filtern
         for i in range(0, SOUNDEFFECTS_LENGTH):
