@@ -119,9 +119,13 @@ class Sound:
 
     @classmethod
     def stopSound(cls, note: int, channel: int):
+        Midi.noteOff(channel, note)
+        cls.__alarmSound[channel] = 0
         pass
     @classmethod
     def stopSounds(cls):
+        for i in range(CHANNEL_1, CHANNEL_3 + 1):
+            cls.stopSound(cls.__sound[i], i)
         pass
 
     @classmethod
